@@ -9,6 +9,7 @@ const router = Router();
 export const usersEndpoints = [
   { method: "GET", path: "/users/all" },
   { method: "GET", path: "/users/:id" },
+  { method: "GET", path: "/users/role/:role" },
   { method: "POST", path: "/users/create" },
   { method: "PATCH", path: "/users/:id" },
   { method: "DELETE", path: "/users/:id" },
@@ -17,10 +18,10 @@ export const usersEndpoints = [
 router.use(authGuard);
 
 router.get("/all", roleGuard("admin"), usersController.getUsers);
+router.get("/role/:role", roleGuard("admin","staff"), usersController.getUsersByRole);
 router.get("/:id", roleGuard("admin"), usersController.getUserById);
 router.post(
   "/create",
-  
   validateCreateUser,
   usersController.createUser
 );

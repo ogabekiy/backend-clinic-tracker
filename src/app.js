@@ -18,10 +18,15 @@ import medicalDocumentsRoutes, {
 } from "./routes/medical-documents.routes.js";
 import patientsRoutes, { patientsEndpoints } from "./routes/patients.routes.js";
 import usersRoutes, { usersEndpoints } from "./routes/users.routes.js";
-
+import cors from "cors";
 const app = express();
 
 await initDatabase();
+
+app.use(cors({
+  origin: "http://localhost:3000",
+  credentials: true,
+}));
 
 app.use(express.json());
 
@@ -51,6 +56,7 @@ printEndpoints([
   ...medicalDocumentsEndpoints,
   ...auditLogsEndpoints,
 ]);
+
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);

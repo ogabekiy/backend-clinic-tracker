@@ -16,16 +16,16 @@ export const patientsEndpoints = [
 
 router.use(authGuard);
 
-router.get("/all", roleGuard("doctor", "staff"), patientsController.getPatients);
-router.get("/:id", roleGuard("doctor", "staff"), patientsController.getPatientById);
+router.get("/all", roleGuard("doctor", "staff","admin"), patientsController.getPatients);
+router.get("/:id", roleGuard("doctor", "staff","admin"), patientsController.getPatientById);
 router.post(
   "/create",
-  roleGuard("staff"),
+  roleGuard("staff","admin"),
   validateCreatePatient,
   patientsController.createPatient
 );
-router.patch("/update/:id", roleGuard("staff"), patientsController.updatePatient);
-router.delete("/delete/:id", roleGuard("staff"), patientsController.deletePatient);
+router.patch("/update/:id", roleGuard("staff","admin"), patientsController.updatePatient);
+router.delete("/delete/:id", roleGuard("staff","admin"), patientsController.deletePatient);
 
 export default router;
 

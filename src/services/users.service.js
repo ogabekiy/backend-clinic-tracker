@@ -26,6 +26,33 @@ export async function getUsers() {
   return result.rows;
 }
 
+export async function getUsersByRole(role) {
+  const result = await pool.query(
+    `
+      SELECT
+        u.id,
+        u.first_name,
+        u.last_name,
+        u.email,
+        u.phone,
+        u.role,
+        u.is_active,
+        d.id AS doctor_id,
+        d.specialization,
+        d.department_id,
+        d.room_number,
+        d.availability
+      FROM users u
+      LEFT JOIN doctors d ON d.user_id = u.id
+      WHERE u.role = $1
+      ORDER BY u.id ASC
+    `,
+    [role]
+  );
+
+  return result.rows;
+}
+
 export async function getUserById(id) {
   const result = await pool.query(
     `

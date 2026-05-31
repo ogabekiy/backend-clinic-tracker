@@ -12,6 +12,18 @@ export async function getUsers(req, res, next) {
   }
 }
 
+export async function getUsersByRole(req, res, next) {
+  try {
+    const users = await usersService.getUsersByRole(req.params.role);
+
+    res.json({
+      data: users,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
 export async function getUserById(req, res, next) {
   try {
     const user = await usersService.getUserById(req.params.id);
