@@ -16,9 +16,9 @@ export const diagnosesEndpoints = [
 
 router.use(authGuard);
 
-router.get("/create", roleGuard("doctor", "staff"), diagnosesController.getDiagnoses);
-router.get("/:id", roleGuard("doctor", "staff"), diagnosesController.getDiagnosisById);
-router.get("/all", roleGuard("doctor", "staff"), diagnosesController.getDiagnoses);
+router.get("/create", roleGuard("doctor", "staff","admin"), diagnosesController.getDiagnoses);
+router.get("/all", roleGuard("doctor", "staff","admin"), diagnosesController.getDiagnoses);
+router.get("/:id", roleGuard("doctor", "staff","admin"), diagnosesController.getDiagnosisById);
 router.post(
   "/create",
   roleGuard("doctor"),

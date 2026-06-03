@@ -18,24 +18,24 @@ router.use(authGuard);
 
 router.get(
   "/all",
-  roleGuard("doctor", "staff"),
+  roleGuard("doctor", "staff","admin"),
   medicalDocumentsController.getMedicalDocuments
 );
 router.get(
   "/:id",
-  roleGuard("doctor", "staff"),
+  roleGuard("doctor", "staff","admin"),
   medicalDocumentsController.getMedicalDocumentById
 );
 router.post(
   "/create",
-  roleGuard("doctor", "staff"),
+  roleGuard("doctor","admin"),
   upload.array("files", 10),
   validateCreateMedicalDocument,
   medicalDocumentsController.createMedicalDocument
 );
 router.delete(
   "/delete/:id",
-  roleGuard("doctor", "staff"),
+  roleGuard("doctor","admin"),
   medicalDocumentsController.deleteMedicalDocument
 );
 

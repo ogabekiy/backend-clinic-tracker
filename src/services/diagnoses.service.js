@@ -36,21 +36,35 @@ export async function getDiagnoses(currentUser) {
   }
 
   const result = await pool.query(
-    `
-      SELECT
-        d.id,
-        d.patient_id,
-        d.icd_code,
-        d.description,
-        d.severity,
-        d.notes,
-        d.doctor_id
-      FROM diagnoses d
-      ${where}
-      ORDER BY d.id DESC
-    `,
-    params
-  );
+  `
+    SELECT
+      d.id,
+      d.patient_id,
+      CONCAT(p.first_name, ' ', p.last_name) AS patient_name,
+
+      d.icd_code,
+      d.description,
+      d.severity,
+      d.notes,
+
+      d.doctor_id,
+      CONCAT(u.first_name, ' ', u.last_name) AS doctor_name
+
+    FROM diagnoses d
+    JOIN patients p
+      ON d.patient_id = p.id
+
+    JOIN doctors doc
+      ON d.doctor_id = doc.id
+
+    JOIN users u
+      ON doc.user_id = u.id
+
+    ${where}
+    ORDER BY d.id DESC
+  `,
+  params
+);
 
   return result.rows;
 }
